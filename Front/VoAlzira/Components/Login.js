@@ -24,11 +24,24 @@ export class Login extends Component {
     
   render() {
 
+    var errocCtrl = <View />
+
+    if (!this.state.success && this.state.badCredentials) {
+        errocCtrl = <Text style={styles.errorText} >usuário ou senha incorretos</Text>; 
+    }
+
+    if (!this.state.success && this.state.unknownError) {
+        errocCtrl = <Text style={styles.errorText}>Erro inesperado</Text>;
+    }
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Bolo da Vovó Alzira
         </Text>
+
+        {errocCtrl}
+
         <TextInput placeholder="Usuario" style={styles.input} onChangeText={(text) => this.setState({"username": text})}/>
         <TextInput placeholder="Senha" secureTextEntry={true} style={styles.input} onChangeText={(text) => this.setState({"password": text})}/>
         
@@ -56,7 +69,10 @@ export class Login extends Component {
                 this.props.onLogin(); 
             }
 
-            this.setState({showProgress: false});
+            //result: {badCredentials, status, statusText, headers}
+            this.setState(Object.assign({showProgress: false}, result));
+
+
       });
   }
 }

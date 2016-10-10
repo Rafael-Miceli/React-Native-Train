@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { Login } from './Login'
+import { Home } from './Home'
 
 export class Main extends Component {
 
@@ -19,9 +20,17 @@ export class Main extends Component {
   }
 
   render() {
-    return (
-      <Login onLogin={this.onLogin.bind(this)} {...this.props}/>
-    );
+
+    if (this.state.isLoggedIn) {
+      return (
+        <Home caraLoago={this.state.nomeDoCandango}/>
+      );
+    }
+    else {
+      return (
+        <Login onLogin={this.onLogin.bind(this)} {...this.props}/>
+      );
+    }    
   }
 
   onLogin() {
