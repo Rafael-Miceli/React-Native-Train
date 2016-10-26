@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  ListView
 } from 'react-native';
 
 import { Supplier } from './Supplier';
@@ -16,7 +17,75 @@ export class SupplierList extends Component {
   constructor(props) {
       super(props);
 
+      console.log("iniciando SupplierList");
+
       _navigate = this.props.navigatorFromRoute;
+
+      var ds = new ListView.DataSource({
+          rowHasChanged: (r1, r2) => r1 != r2
+      });
+
+      this.state = {
+          dataSource: ds,
+          showProgress: true
+      };
+  }
+
+  componentDidMount(){
+    console.log("Montou component");
+
+    this.fetchFeed();
+  }
+
+  fetchFeed(){      
+      var url = 'http://10.0.3.2:5000/api/ingredientes';         
+          
+      fetch(url, {})
+      .then((response)=> response.json())
+      .then((responseData)=> {
+
+          var feedItems = responseData;
+
+          console.log("feedItems", feedItems);
+
+          this.setState({
+              dataSource: this.state.dataSource.cloneWithRows(feedItems),
+              showProgress: false
+          });
+      })
+      
+  }
+
+  renderRow(rowData){
+      console.log("RowData", rowData);
+
+      return (
+          <View style={{
+              flex: 1,
+              flexDirection: 'row',
+              padding: 20,
+              alignItems: 'center',
+              borderColor: '#D7D7D7',
+              borderBottomWidth: 1
+          }}>
+              <View style={{
+                  paddingLeft: 20
+              }}>
+                  <Text style={{backgroundColor: '#fff'}}>
+                      {rowData.nome}
+                  </Text>
+                  <Text style={{backgroundColor: '#fff'}}>
+                      <Text>{rowData.unidade}</Text>
+                  </Text>
+                  <Text style={{backgroundColor: '#fff'}}>
+                      {rowData.fornecedor.nome}
+                  </Text>
+                  <Text style={{backgroundColor: '#fff'}}>
+                       <Text>{rowData.fornecedor.endereco}</Text>
+                  </Text>
+              </View>
+          </View>
+      );
   }
 
   navigateTo(route) {
@@ -29,13 +98,14 @@ export class SupplierList extends Component {
   render() {
     return (
         <View style={styles.container}>
-            <Text style={styles.welcome}>
-              Ingredientes
-            </Text>
-
-            <TouchableHighlight onPress={ () => this.navigateTo(Supplier) }>
-                <Text>Forncedor fulano</Text>
-            </TouchableHighlight>
+            <View style={{
+                flex: 1,
+                justifyContent: 'flex-start'
+            }}>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderRow.bind(this)} />
+            </View>            
         </View>            
     );
   }

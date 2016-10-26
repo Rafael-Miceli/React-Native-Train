@@ -63,7 +63,7 @@ export class Login extends Component {
 
       authService.login({username: this.state.username, password: this.state.password},       
         (result) => {
-            console.log(result);          
+            console.log("resultado do login: ", result);          
             
             if(result.success && this.props.onLogin){
                 this.props.onLogin(); 

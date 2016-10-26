@@ -23,7 +23,7 @@ export class Main extends Component {
 
     if (this.state.isLoggedIn) {
       return (
-        <Home caraLoago={this.state.nomeDoCandango}/>
+        <Home />
       );
     }
     else {

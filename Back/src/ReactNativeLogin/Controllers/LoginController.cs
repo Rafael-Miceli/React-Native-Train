@@ -12,8 +12,8 @@ namespace ReactNativeLogin.Controllers
         [HttpPost]
         public async Task<string> Post([FromBody]LoginVm loginVm)
         {
-            if (loginVm.Login == "admin" && loginVm.Password == "123")
-                return "token";
+            if (loginVm.Username == "admin" && loginVm.Password == "123")
+                return "{\"token\": \"abc\"}";
 
             Response.StatusCode = 401;
             return "";
@@ -22,7 +22,7 @@ namespace ReactNativeLogin.Controllers
 
     public class LoginVm
     {
-        public string Login { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
     }
 }
