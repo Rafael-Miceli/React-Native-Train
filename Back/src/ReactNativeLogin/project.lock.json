@@ -2138,7 +2138,7 @@
           "ref/netstandard1.3/System.IO.Compression.ZipFile.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.IO.Compression.ZipFile.dll": {}
         }
       },
       "System.IO.FileSystem/4.0.1": {
@@ -3497,6 +3497,33 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
+        }
+      },
+      "VoAlzira.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "netstandard1.6/VoAlzira.Domain.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/VoAlzira.Domain.dll": {}
+        }
+      },
+      "VoAlzira.Repository/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "VoAlzira.Domain": "1.0.0"
+        },
+        "compile": {
+          "netstandard1.6/VoAlzira.Repository.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/VoAlzira.Repository.dll": {}
         }
       }
     }
@@ -9326,6 +9353,16 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "VoAlzira.Domain/1.0.0": {
+      "type": "project",
+      "path": "../VoAlzira.Domain/project.json",
+      "msbuildProject": "../VoAlzira.Domain/VoAlzira.Domain.xproj"
+    },
+    "VoAlzira.Repository/1.0.0": {
+      "type": "project",
+      "path": "../VoAlzira.Repository/project.json",
+      "msbuildProject": "../VoAlzira.Repository/VoAlzira.Repository.xproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -9341,7 +9378,9 @@
       "Microsoft.Extensions.Logging.Console >= 1.0.0",
       "Microsoft.Extensions.Logging.Debug >= 1.0.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.0.0",
-      "Microsoft.NETCore.App >= 1.0.0"
+      "Microsoft.NETCore.App >= 1.0.0",
+      "VoAlzira.Domain >= 1.0.0-*",
+      "VoAlzira.Repository >= 1.0.0-*"
     ],
     ".NETCoreApp,Version=v1.0": []
   },

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using VoAlzira.Domain.Interfaces;
+using VoAlzira.Repository.Repositorios;
+using VoAlzira.Domain.Services;
 
 namespace ReactNativeLogin
 {
@@ -38,6 +41,10 @@ namespace ReactNativeLogin
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+
+            services.AddTransient<IFornecedorRepo, FornecedorRepo>();
+            services.AddTransient<IIngredienteRepo, IngredienteRepo>();
+            services.AddTransient<IngredienteService, IngredienteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

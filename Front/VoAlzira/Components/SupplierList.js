@@ -30,7 +30,7 @@ export class SupplierList extends Component {
     return (
         <View style={styles.container}>
             <Text style={styles.welcome}>
-              SupplierList
+              Ingredientes
             </Text>
 
             <TouchableHighlight onPress={ () => this.navigateTo(Supplier) }>
