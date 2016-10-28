@@ -1,8 +1,50 @@
-import {AsyncStorage} from 'react-native';
+import {
+    AsyncStorage
+} from 'react-native';
+
+//Low Dash
 
 const userKey = 'user';
 
 export class AuthService {
+
+    getUser(callback) {
+        AsyncStorage.multiGet([userKey], (err, valor) => {
+
+            console.log("O que vou verificar", valor);
+
+            console.log("Forma Feia: ", valor[0][1]);
+
+            var token = '';
+
+            valor.map((naoVouUsar, i, arr) => {
+                let key = arr[i][0];
+                let valeu = arr[i][1];
+
+                console.log("key: ", key);
+                console.log("valor: ", valeu);
+
+                if (key == userKey) {
+                    var tokenObj = JSON.parse(valeu);
+                    console.log('tokenObj:', tokenObj);
+
+                    var token = tokenObj.token;
+
+                    return callback(token);
+                }                
+            });      
+        });
+
+        // var tok = AsyncStorage.getItem(userKey, (token) => {
+        //     console.log('token', token);
+            
+        // });    
+
+        // console.log('tok', tok);    
+        
+    }
+
+
     login(credentials, callback){
 
         var _body = {
@@ -45,10 +87,30 @@ export class AuthService {
                 }
 
                 return callback({success: true});
-            })
+            });
+
+            // AsyncStorage.setItem(userKey, JSON.stringify(results), (err)=> {
+            //     if(err){
+            //         throw err;
+            //     }
+
+            //     return callback({success: true});
+            // })
+
         })
         .catch((err)=> {
             return callback(err);
         });
     }
 }
+
+/*
+
+
+
+[
+    0: [0: 'user', 1: {token: 'abc'}],
+    1: ['']
+]
+
+*/
