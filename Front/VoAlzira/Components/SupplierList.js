@@ -40,23 +40,33 @@ export class SupplierList extends Component {
   fetchFeed(){      
       var url = 'http://10.0.3.2:5000/api/ingredientes';         
           
-      fetch(url, {})
-      .then((response)=> response.json())
-      .then((responseData)=> {
+      // fetch(url, {})
+      // .then((response)=> response.json())
+      // .then((responseData)=> {
 
-          var feedItems = responseData;
+      //     var feedItems = responseData;
 
-          console.log("feedItems", feedItems);
+      //     console.log("feedItems", feedItems);
+      //     console.log("DataSource: ", this.state.dataSource);
 
-          this.setState({
-              dataSource: this.state.dataSource.cloneWithRows(feedItems),
-              showProgress: false
-          });
-      })
+      //     this.setState({
+      //         dataSource: this.state.dataSource.cloneWithRows(feedItems),
+      //         showProgress: false
+      //     });
+      // })
+
+      var arrayEscrotoAqui = [{nome: 'fulano', idade: 18},
+                            {nome: 'flavio', idade: 31},
+                            {nome: 'Rafael', idade: 25},
+                            {nome: 'Elaine', idade: 23}];
       
+      this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(arrayEscrotoAqui),
+          showProgress: false
+      });      
   }
 
-  renderRow(rowData){
+  buildRow(rowData){
       console.log("RowData", rowData);
 
       return (
@@ -68,22 +78,22 @@ export class SupplierList extends Component {
               borderColor: '#D7D7D7',
               borderBottomWidth: 1
           }}>
-              <View style={{
-                  paddingLeft: 20
-              }}>
-                  <Text style={{backgroundColor: '#fff'}}>
-                      {rowData.nome}
-                  </Text>
-                  <Text style={{backgroundColor: '#fff'}}>
-                      <Text>{rowData.unidade}</Text>
-                  </Text>
-                  <Text style={{backgroundColor: '#fff'}}>
-                      {rowData.fornecedor.nome}
-                  </Text>
-                  <Text style={{backgroundColor: '#fff'}}>
-                       <Text>{rowData.fornecedor.endereco}</Text>
-                  </Text>
-              </View>
+
+            <TouchableHighlight onPress={() => {_navigate.push({id: Supplier, title: 'Fornecedor', params: {
+        key: rowData,
+        name: "teste" 
+      }})}}>
+                <View style={{
+                    paddingLeft: 20
+                }}>
+                    <Text style={{backgroundColor: '#fff'}}>
+                        {rowData.nome}
+                    </Text>
+                    <Text style={{backgroundColor: '#fff'}}>
+                        {rowData.idade}
+                    </Text>
+                </View>
+            </TouchableHighlight>
           </View>
       );
   }
@@ -100,16 +110,28 @@ export class SupplierList extends Component {
         <View style={styles.container}>
             <View style={{
                 flex: 1,
-                justifyContent: 'flex-start'
+                justifyContent: 'flex-start',
+                marginTop: 50
             }}>
-                <ListView
+                <ListView 
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow.bind(this)} />
+                    renderRow={this.buildRow.bind(this)} />
             </View>            
         </View>            
     );
   }
 }
+
+/*
+
+[
+  {nome: fulano, idade: 18},
+  {nome: flavio, idade: 31},
+  {nome: Rafael, idade: 25},
+  {nome: Elaine, idade: 23},
+]
+
+*/
 
 const styles = StyleSheet.create({
   container: {

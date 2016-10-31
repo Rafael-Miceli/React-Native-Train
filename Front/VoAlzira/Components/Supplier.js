@@ -24,7 +24,7 @@ export class Supplier extends Component {
       return (
           <View style={styles.container}>
               <Text style={styles.welcome}>
-                Fornecedor Tal
+                {this.props.params.key.nome}
               </Text>
           </View>
       );

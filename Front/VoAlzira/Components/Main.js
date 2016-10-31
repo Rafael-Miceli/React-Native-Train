@@ -8,6 +8,7 @@ import {
 
 import { Login } from './Login'
 import { Home } from './Home'
+import { AuthService } from './AuthService';
 
 export class Main extends Component {
 
@@ -17,6 +18,25 @@ export class Main extends Component {
       this.state = {
           isLoggedIn: false 
       }
+  }
+
+  componentWillMount() {
+      //Verificar se ja esta logado
+
+      var authService = new AuthService();
+
+      authService.getUser((token) => {
+
+        console.log("token: ", token);
+
+        if(token)
+        {
+          this.setState({
+            isLoggedIn: true
+          })  
+        }
+      })   
+
   }
 
   render() {
