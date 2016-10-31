@@ -10,5 +10,6 @@ import {
 } from 'react-native';
 
 import { Main } from './Components/Main';
+import {MenuNavigator} from './Components/MenuTest';
 
-AppRegistry.registerComponent('VoAlzira', () => Main);
+AppRegistry.registerComponent('VoAlzira', () => MenuNavigator);

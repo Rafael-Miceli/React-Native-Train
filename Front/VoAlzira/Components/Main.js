@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Login } from './Login'
-import { Home } from './Home'
+import { Home, HomeMenu } from './Home'
 import { AuthService } from './AuthService';
 
 export class Main extends Component {
@@ -43,7 +43,7 @@ export class Main extends Component {
 
     if (this.state.isLoggedIn) {
       return (
-        <Home />
+        <HomeMenu />
       );
     }
     else {
