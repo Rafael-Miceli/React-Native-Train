@@ -2,12 +2,13 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
+  Text, 
   View
 } from 'react-native';
 
-import { Login } from './Login'
-import { Home, HomeMenu } from './Home'
+import { Login } from './Login';
+import { Home } from './Home';
+import {MenuNavigator} from './MenuTest';
 import { AuthService } from './AuthService';
 
 export class Main extends Component {
@@ -43,7 +44,7 @@ export class Main extends Component {
 
     if (this.state.isLoggedIn) {
       return (
-        <HomeMenu />
+        <MenuNavigator />
       );
     }
     else {

@@ -9,10 +9,11 @@ import {
   Image,
   StyleSheet,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  ListView
 } from 'react-native';
 
-var SideMenu = require('react-native-side-menu');
+import SideMenu from 'react-native-side-menu';
 
 class FirstPage extends Component {
     render() {
@@ -26,7 +27,9 @@ class FirstPageMenu extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+          isOpen: false
+        };
     }
 
     toggle() {
@@ -40,24 +43,27 @@ class FirstPageMenu extends Component {
     }
 
     onMenuItemSelected = (item) => {
+
+      console.log('Papai pegou: ', item);
+
         this.setState({
             isOpen: false,      
             selectedItem: item,
         });
-        this.props.navigator.replace({ id: item });
+        //this.props.navigator.replace({ id: item }); 
     }
 
     render() {
 
-        const menu = <Menu onItemSelected={this.onMenuItemSelected} navigator={this.props.navigator}/>;
+        const menu = <Menu onItemSelected={this.onMenuItemSelected} ProFilho={'Espirito-Santo'} navigator={this.props.navigator}/>;
 
         return (
             <SideMenu
               menu={menu}
               isOpen={this.state.isOpen}
               onChange={(isOpen) => this.updateMenuState(isOpen)}>
-                <MenuButton onPress={() => this.toggle()}/>
-                <FirstPage/>
+                <MenuButton onMenuPress={() => this.toggle()}/>                
+                <FirstPage/>                
             </SideMenu>                
         );
     }
@@ -70,9 +76,48 @@ class SecondPage extends Component {
 }
 
 class SecondPageMenu extends Component {
-     render(){
-         return(<Text>Page 2</Text>);
-     }
+     constructor(props) {
+        super(props);
+        this.state = {
+          isOpen: false
+        };
+    }
+
+    toggle() {
+        this.setState({
+          isOpen: !this.state.isOpen,
+        });
+    }
+
+    updateMenuState(isOpen) {
+        this.setState({ isOpen, });
+    }
+
+    onMenuItemSelected = (x) => {
+
+      console.log('Papai pegou: ', x);
+
+        this.setState({
+            isOpen: false,      
+            selectedItem: item,
+        });
+        //this.props.navigator.push({ id: item });
+    }
+
+    render() {
+
+        const menu = <Menu onItemSelected={this.onMenuItemSelected} ProFilho={'Espirito-Santo'} navigator={this.props.navigator}/>;
+
+        return (
+            <SideMenu
+              menu={menu}
+              isOpen={this.state.isOpen}
+              onChange={(isOpen) => this.updateMenuState(isOpen)}>
+                <MenuButton onMenuPress={() => this.toggle()}/>                
+                <SecondPage/>                
+            </SideMenu>                
+        );
+    }
 }
 
 class ThirdPage extends Component {
@@ -95,23 +140,14 @@ export class MenuNavigator extends Component {
   }
 
   renderScene(route, nav) {
-    switch (route.id) {
-      case 'first':
-        return <FirstPageMenu navigator={nav} />;
-      case 'second':
-        return <SecondPageMenu navigator={nav} />;
-      case 'third':
-        return <ThirdPageMenu navigator={nav} />;
-      default:
-        return <FirstPageMenu navigator={nav} />;
-    }
+      return <route.id navigator={nav} />;
   }
 
   render() {
     return (
       <Navigator
         ref={this._setNavigatorRef}
-        initialRoute={{id: 'first'}}
+        initialRoute={{id: FirstPageMenu}}
         renderScene={this.renderScene}
         configureScene={(route) => {
           if (route.sceneConfig) {
@@ -155,8 +191,8 @@ export class MenuNavigator extends Component {
 class MenuButton extends Component {
 
   handlePress(e) {
-    if (this.props.onPress) {
-      this.props.onPress(e);
+    if (this.props.onMenuPress) {
+      this.props.onMenuPress(e);
     }
   }
 
@@ -183,6 +219,29 @@ class Menu extends Component {
 
   constructor(props) {
       super(props);
+
+      var ds = new ListView.DataSource({
+          rowHasChanged: (r1, r2) => r1 != r2
+      });
+
+      this.state = {
+          dataSource: ds,
+          showProgress: true
+      };
+  }
+
+  componentDidMount() {
+    console.log("Peguei do meu pai: ", this.props.ProFilho);
+
+    var arrayEscrotoAqui = [{nome: 'fulano', idade: 18, pg: FirstPageMenu},
+                            {nome: 'flavio', idade: 31, pg: SecondPageMenu},
+                            {nome: 'Rafael', idade: 25, pg: FirstPageMenu},
+                            {nome: 'Elaine', idade: 23, pg: FirstPageMenu}];
+
+    this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(arrayEscrotoAqui),
+          showProgress: false
+      });
   }
 
   render() {
@@ -190,27 +249,55 @@ class Menu extends Component {
     return (
 
       <ScrollView scrollsToTop={false} style={styles.menu}>
-
-        <Text
-          onPress={() => this.props.onItemSelected('first')}
-          style={styles.item}>
-          First
-        </Text>
-
-        <Text
-          onPress={() => this.props.onItemSelected('second')}
-          style={styles.item}>
-          Second
-        </Text>
-
-        <Text
-          onPress={() => this.props.onItemSelected('third')}
-          style={styles.item}>
-          Third
-        </Text>
+        <ListView 
+                    dataSource={this.state.dataSource}
+                    renderRow={this.buildRow.bind(this)} />
       </ScrollView>
     );
   }
+
+  buildRow(rowData){
+      return (
+          <Text
+          onPress={() => this.props.onItemSelected('Passei para o pai')}
+          style={styles.item}>
+          {rowData.nome}
+        </Text>
+      );
+  }
+
+  //render() {
+
+    // return (
+
+    //   <ScrollView scrollsToTop={false} style={styles.menu}>
+
+    //     <Text
+    //       onPress={() => this.props.onItemSelected('first')}
+    //       style={styles.item}>
+    //       First
+    //     </Text>
+
+    //     <Text
+    //       onPress={() => this.props.onItemSelected('second')}
+    //       style={styles.item}>
+    //       Second
+    //     </Text>
+
+    //     <Text
+    //       onPress={() => this.props.onItemSelected('third')}
+    //       style={styles.item}>
+    //       Third
+    //     </Text>
+
+    //     <Text
+    //       onPress={() => this.props.onItemSelected('second')}
+    //       style={styles.item}>
+    //       Second
+    //     </Text>
+    //   </ScrollView>
+    // );
+  //}
 };
 
 var styles = StyleSheet.create({

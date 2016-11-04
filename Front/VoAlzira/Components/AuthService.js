@@ -27,8 +27,8 @@ export class AuthService {
                 if (key == userKey) {
                     var tokenObj = JSON.parse(valeu);
                     console.log('tokenObj:', tokenObj);
-
-                    var token = tokenObj.token;
+                    if (tokenObj)
+                        var token = tokenObj.token;
 
                     return callback(token);
                 }                
