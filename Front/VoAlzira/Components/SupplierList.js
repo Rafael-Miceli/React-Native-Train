@@ -21,6 +21,8 @@ export class SupplierList extends Component {
 
       _navigate = this.props.navigatorFromRoute;
 
+      console.log("Navegador: ", _navigate);
+
       var ds = new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 != r2
       });

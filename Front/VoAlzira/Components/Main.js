@@ -8,7 +8,7 @@ import {
 
 import { Login } from './Login';
 import { Home } from './Home';
-import {MenuNavigator} from './MenuTest';
+import { VovoNavigator } from './MenuTest';
 import { AuthService } from './AuthService';
 
 export class Main extends Component {
@@ -36,7 +36,7 @@ export class Main extends Component {
             isLoggedIn: true
           })  
         }
-      })   
+      });   
 
   }
 
@@ -44,7 +44,7 @@ export class Main extends Component {
 
     if (this.state.isLoggedIn) {
       return (
-        <MenuNavigator />
+        <VovoNavigator />
       );
     }
     else {
